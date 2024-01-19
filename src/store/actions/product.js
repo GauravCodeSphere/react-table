@@ -37,7 +37,7 @@ export const deleteProduct = (productId) => async (dispatch) => {
         });
 
         if (response.ok) {
-          toast.success(toastMessage[Types.DELETE_PRODUCT])
+          // toast.success(toastMessage[Types.DELETE_PRODUCT])
           return { status: 1, productId };
         } else {
           const data = await response.json();
@@ -127,6 +127,11 @@ export const createProduct = (newProduct) => async (dispatch) => {
   });
 };
 
+
+
+export const undoLastAction = () => ({
+  type: Types.UNDO_ACTION,
+});
 
 
 

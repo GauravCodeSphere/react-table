@@ -5,6 +5,7 @@ const initialProductState = {
     products: [],
     loading: false,
     error: null,
+    undoAction: null, // New property to store the previous action
 };
 
 
@@ -33,7 +34,8 @@ export const productReducer = (state = initialProductState, action) => {
                     ...prevState,
 
                     products: prevState.products.filter(product => product.id !== payload.productId),
-                    loading: false
+                    loading: false,
+                    undoAction: prevState.products.filter(product => product.id === payload.productId), // Save the current action
                 }),
                 failure: (prevState) => ({ ...prevState, loading: false, error: action.payload }),
             });
@@ -77,6 +79,25 @@ export const productReducer = (state = initialProductState, action) => {
                 }),
                 failure: (prevState) => ({ ...prevState, loading: false, error: action.payload }),
             });
+
+        case Types.UNDO_ACTION:
+            return {
+                ...state,
+                products: state.undoAction
+                    ? (() => {
+                        const updatedProducts = [...state.products];
+                        const insertIndex = state.undoAction[0].id - 1; // Adjust the index as needed
+                        console.log(insertIndex);
+
+                        // Insert the items from undoAction at the specified index
+                        updatedProducts.splice(insertIndex, 0, ...state.undoAction);
+
+                        return updatedProducts;
+                    })()
+                    : state.products,
+                undoAction: null,
+            };
+
 
 
 
