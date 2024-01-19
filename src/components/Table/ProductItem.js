@@ -1,5 +1,8 @@
+import { useState } from 'react';
 import InlineDropdown from './InlineDropdown';
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { useActions } from '../../store/actions';
+import { buttonStyles } from '../../utils/material';
 
 const ProductImage = ({ src }) => (
     <div style={{ width: '100%', height: '150px' }} className='rounded-lg overflow-hidden shadow-md'>
@@ -39,6 +42,9 @@ const ExpandableRow = ({ product, selectedColumns }) => {
 
 const ProductItem = ({ selectedColumns, product, handleCheckboxChange, selectedItems, toggleExpanded, expanded }) => {
 
+
+    const { updateProduct } = useActions()
+
     const getColumnValue = (product, column) => {
         switch (column) {
             case 'productName':
@@ -55,6 +61,33 @@ const ProductItem = ({ selectedColumns, product, handleCheckboxChange, selectedI
                 return '';
         }
     };
+
+    const [editItemId, setEditItemId] = useState(null);
+
+    const [editedFields, setEditedFields] = useState({});
+
+    const handleEdit = (id) => {
+        setEditedFields({}); // Reset edited fields when entering edit mode
+        setEditItemId(id);
+    };
+
+    const handleSave = () => {
+        updateProduct(product.id, editedFields);
+
+        setEditItemId(null);
+        setEditedFields({});
+    };
+
+    const handleCancel = () => {
+        setEditItemId(null);
+        setEditedFields({});
+    };
+
+    const handleInputChange = (field, value) => {
+        setEditedFields((prevFields) => ({ ...prevFields, [field]: value }));
+    };
+
+    const isEditing = editItemId === product.id;
 
     return (
         <>
@@ -77,13 +110,30 @@ const ProductItem = ({ selectedColumns, product, handleCheckboxChange, selectedI
 
                 {[...selectedColumns.keys()].map((column, columnIndex) => (
                     selectedColumns.get(column) ? (
-                        <td key={columnIndex} className="px-4 py-3">
-                            {getColumnValue(product, column)}
+                        <td key={columnIndex} className='px-4 py-3'>
+                            {isEditing ? (
+                                <input
+                                    type='text'
+                                    defaultValue={editedFields[column] || getColumnValue(product, column)}
+                                    onChange={(e) => handleInputChange(column, e.target.value)}
+                                    
+                                />
+                            ) : (
+                                getColumnValue(product, column)
+                            )}
                         </td>
                     ) : null
                 ))}
+
                 <td className="px-4 py-3 flex items-center justify-end relative">
-                    <InlineDropdown product={product} />
+                    {isEditing ? (
+                        <div className='flex gap-2'>
+                            <button onClick={handleSave} className={buttonStyles} style={{ background: "#0ea5e9", color: "white" }}>Save</button>
+                            <button onClick={handleCancel} className={buttonStyles} style={{ background: "red", color: "white" }} >Cancel</button>
+                        </div>
+                    ) : (
+                        <InlineDropdown product={product} handleEdit={() => handleEdit(product.id)} />
+                    )}
                 </td>
             </tr>
             {/* Expanded row */}
