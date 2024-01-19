@@ -2,13 +2,19 @@ import React, { useState } from 'react';
 import SearchForm from './SearchForm';
 import TableActions from './TableActions';
 import ProductItem from './ProductItem';
-import { actions, brands, buttonStyles, columnLabels } from '../../utils/material';
-import { connect } from 'react-redux';
+import { actions, buttonStyles, columnLabels } from '../../utils/material';
+import { connect, useDispatch } from 'react-redux';
 import LoadingTable from './LoadingTable';
 import PaginationModel from './Pagination';
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+import { deleteMultiProduct } from '../../store/actions/product';
+import { ExportCSVButton } from '../../hooks';
+import JsonView from '../Model/JsonView';
 
 const ProductTable = ({ products, loading, error }) => {
+
+    const dispatch = useDispatch();
+
 
     const initialColumnVisibility = new Map([
         ['productName', true],
@@ -24,6 +30,29 @@ const ProductTable = ({ products, loading, error }) => {
     const [sortColumn, setSortColumn] = useState(null);
     const [sortOrder, setSortOrder] = useState('asc');
     const [selectedBrand, setSelectedBrand] = useState([]);
+
+    const [selectedItems, setSelectedItems] = useState([]);
+    const [expandedRowIndex, setExpandedRowIndex] = useState(null);
+
+    const toggleExpanded = (index) => {
+        setExpandedRowIndex((prevIndex) => (prevIndex === index ? null : index));
+    };
+
+    const handleCheckboxChange = (itemId) => {
+        const isSelected = selectedItems.includes(itemId);
+
+        if (isSelected) {
+            setSelectedItems((prevSelected) => prevSelected.filter((id) => id !== itemId));
+        } else {
+            setSelectedItems((prevSelected) => [...prevSelected, itemId]);
+        }
+    };
+
+    const handleDelete = () => {
+        if (selectedItems.length === 0) return alert("No selected item found")
+        dispatch(deleteMultiProduct(selectedItems));
+        setSelectedItems([])
+    };
 
     // Function to toggle the presence of a brand in the selectedBrand array
     const toggleBrand = (brand) => {
@@ -119,7 +148,7 @@ const ProductTable = ({ products, loading, error }) => {
     // console.log(filteredProductsByBrand);
     // Function to reset sorting
     const resetSorting = () => {
-        setSortColumn('');
+        setSortColumn(null);
         setSortOrder('asc');
     };
 
@@ -162,29 +191,38 @@ const ProductTable = ({ products, loading, error }) => {
         .filter(brand => brand.count > 1);
 
 
-
     return (
-        <section className=" dark:bg-gray-900 p-3 sm:p-5 h-screen mt-10">
+        <section className=" dark:bg-gray-900 p-3 sm:p-5 h-screen ">
             <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
                 {/* Start coding here */}
-                <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                <div className="bg-white dark:bg-gray-800 relative shadow-lg sm:rounded-lg overflow-hidden">
+                    <div className='flex justify-end mt-3 me-4 gap-3'>
+                        <JsonView productData={filteredProductsByBrand} />
+                        <ExportCSVButton data={filteredProductsByBrand} filename="table_data" />
+                    </div>
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                         <SearchForm onSearch={handleSearch} />
-                        {sortColumn === "" || <button className={buttonStyles} onClick={resetSorting}>Clear sort</button>}
+                        {sortColumn === null || <button className={buttonStyles} onClick={resetSorting}>Clear sort</button>}
                         <TableActions
                             actions={actions}
                             brands={uniqueBrands}
                             setSelectedBrand={toggleBrand}
                             selectedColumns={selectedColumns}
                             onColumnChange={handleColumnChange}
+                            handleDelete={handleDelete}
 
                         />
 
                     </div>
                     <div className="overflow-x-auto">
+                        {selectedItems.length > 0 &&
+                            <div className='bg-sky-500 text-white ps-3 px-2 font-semibold'>
+                                Selected Items: {selectedItems.length}
+                            </div>}
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
+                                    <th></th>
                                     {[...selectedColumns.keys()]
                                         .filter(column => selectedColumns.get(column))
                                         .map((column, index) => (
@@ -192,11 +230,13 @@ const ProductTable = ({ products, loading, error }) => {
                                                 <div className='flex justify-center items-center'>
 
                                                     {getColumnHeaderLabel(column)}
-                                                    {sortColumn === column && (
-                                                        <span className="ml-1">{sortOrder === 'asc' ? <FaSortUp className='mt-1' /> : <FaSortDown className='mb-1' />}</span>
-                                                    ) ||
-                                                        <span className="ml-1"><FaSort /></span>
-                                                    }
+                                                    <span className="ml-1">
+                                                        {sortColumn === column
+                                                            ? (sortOrder === 'asc' ? <FaSortUp className='mt-1' /> : <FaSortDown className='mb-1' />)
+                                                            : <FaSort />
+                                                        }
+                                                    </span>
+
                                                 </div>
                                             </th>
                                         ))}
@@ -214,6 +254,10 @@ const ProductTable = ({ products, loading, error }) => {
                                             selectedColumns={selectedColumns}
                                             product={product}
                                             key={index}
+                                            handleCheckboxChange={handleCheckboxChange}
+                                            selectedItems={selectedItems}
+                                            expanded={index === expandedRowIndex}
+                                            toggleExpanded={() => toggleExpanded(index)}
                                         />
                                     ))}
                                 </tbody>}
