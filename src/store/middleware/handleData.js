@@ -29,11 +29,10 @@ const LIFECYCLE = {
     const { meta } = action;
   
     const lifecycle = meta ? meta["lifecycle"] : null;
-  
+
     if (lifecycle === null) {
       return state;
     }
-    console.log(lifecycle);
   
     switch (lifecycle) {
       case LIFECYCLE.REQUEST:

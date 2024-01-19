@@ -1,3 +1,4 @@
+
 const GLOBAL_CACHE = new Set();
 
 export const createTypes = (...types) => {
@@ -20,7 +21,9 @@ export const createTypes = (...types) => {
     GLOBAL_CACHE.add(type);
   });
 
+
   return TYPES;
 };
+
 
 export const clearGlobalCache = () => GLOBAL_CACHE.clear();
