@@ -2,18 +2,29 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FaFilter } from "react-icons/fa";
 import Dropdown from './Dropdown';
 import { buttonStyles } from '../../utils/material';
-import { useDropdownState } from "../../hooks/dropDown";
+import { useDropdownState } from "../../hooks/useDropdownState";
 import ColumnDropdown from "./ColumnDropdown";
 import { IoMdAdd } from "react-icons/io";
 import ProductPopup from "../Model/ProductPopup";
 import { useState } from "react";
 
-const TableActions = ({ actions, brands, selectedColumns, onColumnChange, setSelectedBrand, handleDelete }) => {
+const TableActions = ({ actions, filterOptions, selectedColumns, onColumnChange, setSelectedBrand, handleDelete, setSelectedColumns }) => {
     const [dropdownStates, handleDropdownClick] = useDropdownState();
     const { showColDropdown, showActionsDropdown, showFilterDropdown } = dropdownStates;
 
     const [open, setOpen] = useState(false)
 
+    const moveColumn = (fromIndex, toIndex) => {
+        const reorderedColumns = Array.from(selectedColumns.keys());
+        reorderedColumns.splice(toIndex, 0, reorderedColumns.splice(fromIndex, 1)[0]);
+
+        const newColumnVisibility = new Map();
+        reorderedColumns.forEach((column) => {
+            newColumnVisibility.set(column, selectedColumns.get(column));
+        });
+
+        setSelectedColumns(newColumnVisibility);
+    };
 
     return (
         <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
@@ -52,7 +63,7 @@ const TableActions = ({ actions, brands, selectedColumns, onColumnChange, setSel
                         <FaFilter className='me-2' />
                         Filter
                     </button>
-                    {showFilterDropdown && <Dropdown id={`showFilterDropdownDropdown`} items={brands} handleFunction={setSelectedBrand} />}
+                    {showFilterDropdown && <Dropdown id={`showFilterDropdownDropdown`} items={filterOptions} handleFunction={setSelectedBrand} />}
                 </div>
 
                 <ColumnDropdown
@@ -60,6 +71,7 @@ const TableActions = ({ actions, brands, selectedColumns, onColumnChange, setSel
                     handleDropdownClick={handleDropdownClick}
                     selectedColumns={selectedColumns}
                     onColumnChange={onColumnChange}
+                    moveColumn={moveColumn}
                 />
             </div>
         </div>
