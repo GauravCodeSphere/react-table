@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useApiFetch = (url, options = {}) => {
+export const useApiFetch = (url, options = {}) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -24,7 +24,6 @@ const useApiFetch = (url, options = {}) => {
     return { data, loading, error };
 };
 
-export default useApiFetch;
 
 
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getColumnValue } from '../utils/material';
 
-const useFilteredAndSortedProducts = (originalProducts, searchTerm, sortColumn, sortOrder, selectedBrand,field) => {
+export const useFilteredAndSortedProducts = (originalProducts, searchTerm, sortColumn, sortOrder, selectedBrand,field) => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [sortedProducts, setSortedProducts] = useState([]);
     const [filteredProductsByBrand, setFilteredProductsByBrand] = useState([]);
@@ -52,4 +52,3 @@ const useFilteredAndSortedProducts = (originalProducts, searchTerm, sortColumn, 
     };
 };
 
-export default useFilteredAndSortedProducts;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export  const useFieldCount = (items, fieldName, minCount) => {
+export const useFieldCount = (items, fieldName, minCount) => {
   const [fieldCount, setFieldCount] = useState([]);
 
   useEffect(() => {

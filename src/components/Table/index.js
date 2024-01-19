@@ -7,15 +7,19 @@ import ProductItem from './ProductItem';
 import LoadingTable from './LoadingTable';
 import PaginationModel from './Pagination';
 import JsonView from '../Model/JsonView';
-import { ExportCSVButton} from '../../hooks/ExportCSVButton';
-import useSorting from '../../hooks/useSorting';
-import useSearch from '../../hooks/useSearch';
+import { ExportCSVButton } from '../../hooks/ExportCSVButton';
 import { deleteMultiProduct } from '../../store/actions/product';
 import { actions, buttonStyles, columnLabels } from '../../utils/material';
-import useFilteredAndSortedProducts from '../../hooks/useFilteredAndSortedProducts';
-import { useFieldCount } from '../../hooks/useFieldCount';
-import { usePagination } from '../../hooks/usePagination';
-import { useColumnVisibility } from '../../hooks/useColumnVisibility';
+
+import {
+    useFilteredAndSortedProducts,
+    useSorting,
+    useSearch,
+    useFieldCount,
+    usePagination,
+    useColumnVisibility,
+} from '../../hooks';
+
 
 const ProductTable = ({ products, loading, error }) => {
 

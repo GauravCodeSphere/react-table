@@ -1,7 +1,6 @@
-// useSearch.js
 import { useState } from 'react';
 
-const useSearch = (handlePageChange) => {
+export const useSearch = (handlePageChange) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = (term) => {
@@ -12,4 +11,3 @@ const useSearch = (handlePageChange) => {
     return { searchTerm, handleSearch };
 };
 
-export default useSearch;
