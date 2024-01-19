@@ -1,5 +1,3 @@
-
-
 const actions = [
     {
         id: 'deleteSelected',
@@ -16,30 +14,8 @@ const actions = [
             </svg>
         ),
     },
-    // {
-    //     id: 'exportCSV',
-    //     label: 'Export CSV',
-    //     className: 'your-button-styles',
-    //     icon: (
-    //         <svg
-    //             className="-ml-1 mr-1.5 w-5 h-5"
-    //             fill="currentColor"
-    //             viewBox="0 0 20 20"
-    //             xmlns="http://www.w3.org/2000/svg"
-    //             aria-hidden="true"
-    //         >
-    //         </svg>
-    //     ),
-    // },
 ];
 
-const brands = [
-    { id: 'apple', label: 'Apple', count: 56 },
-    { id: 'fitbit', label: 'Microsoft', count: 16 },
-    { id: 'razor', label: 'Razor', count: 49 },
-    { id: 'nikon', label: 'Nikon', count: 12 },
-    { id: 'benq', label: 'BenQ', count: 74 },
-];
 
 const columnLabels = {
     productName: 'Product name',
@@ -48,8 +24,6 @@ const columnLabels = {
     description: 'Description',
     price: 'Price',
 };
-
-
 
 
 let toastMessage = {
@@ -82,7 +56,7 @@ const getColumnValue = (column) => {
 };
 
 
-export { actions, brands, columnLabels, buttonStyles, toastMessage,getColumnValue }
+export { actions, columnLabels, buttonStyles, toastMessage, getColumnValue }
 
 
 
