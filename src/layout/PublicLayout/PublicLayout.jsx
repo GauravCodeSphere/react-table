@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes } from "react-router";
-import { getRoutes } from "../../utils/getRoutes";
+import { getRoutes } from "../../utils/GetRoutes";
 import { publicRoutes } from "../../routes";
 
 const PublicLayout = () => {
