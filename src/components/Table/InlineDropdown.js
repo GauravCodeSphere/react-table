@@ -1,11 +1,28 @@
 import { Menu, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
+import { useDispatch } from 'react-redux';
+import { deleteProduct } from '../../store/actions/product';
+import ProductPopup from '../Model/ProductPopup';
+import ConfirmPopup from '../Model/ConfirmPopup';
 
-export default function InlineDropdown() {
+export default function InlineDropdown({ product }) {
+    const [open, setOpen] = useState(false)
+    const [openConfirmModel, setOpenConfirmModel] = useState(false)
+
+    const dispatch = useDispatch();
+
+    const handleDelete = () => {
+        dispatch(deleteProduct(product.id));
+    };
+
+
     return (
         <div className="">
+            {open && <ProductPopup isOpen={open} onClose={() => setOpen(false)} productData={product} name={"Edit Product"} />}
+            {openConfirmModel && <ConfirmPopup isOpen={openConfirmModel} onCancel={() => setOpenConfirmModel(false)} message={"Are you sure you want delete ?"} onConfirm={handleDelete} />}
+
             <Menu as="div" className="relative inline-block text-left">
                 <div>
                     <Menu.Button className=" inline-flex w-full justify-center rounded-md  px-4 py-2 text-sm font-medium text-white  focus:outline-none focus-visible:ring-2 ">
@@ -36,6 +53,7 @@ export default function InlineDropdown() {
                                     <button
                                         className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                        onClick={() => setOpen(true)}
                                     >
                                         {active ? (
                                             <CiEdit
@@ -57,6 +75,7 @@ export default function InlineDropdown() {
                                     <button
                                         className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                        onClick={() => setOpenConfirmModel(true)}
                                     >
                                         {active ? (
                                             <MdDelete
