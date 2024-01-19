@@ -26,3 +26,12 @@ const useStoreActions = (actions) => {
 };
 
 export { useStoreActions, useReducerData, useAppSelector };
+
+
+
+
+
+
+
+
+// const products = useReducerData("productReducer", "products", []);
