@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import SearchForm from './SearchForm';
 import TableActions from './TableActions';
@@ -8,22 +8,15 @@ import LoadingTable from './LoadingTable';
 import PaginationModel from './Pagination';
 import JsonView from '../Model/JsonView';
 import { ExportCSVButton } from '../../hooks/ExportCSVButton';
-import { deleteMultiProduct } from '../../store/actions/product';
 import { actions, buttonStyles, columnLabels } from '../../utils/material';
 
-import {
-    useFilteredAndSortedProducts,
-    useSorting,
-    useSearch,
-    useFieldCount,
-    usePagination,
-    useColumnVisibility,
-} from '../../hooks';
-
+// import custom hooks 
+import { useFilteredAndSortedProducts, useSorting, useSearch, useFieldCount, usePagination, useColumnVisibility } from '../../hooks';
+import { useActions } from '../../store/actions';
 
 const ProductTable = ({ products, loading, error }) => {
 
-    const dispatch = useDispatch();
+    const { deleteMultiProduct } = useActions()
     const { currentPage, itemsPerPage, handlePageChange, handleItemsPerPageChange, startIndex, endIndex } = usePagination(10)
     const { selectedColumns, handleColumnChange, setSelectedColumns } = useColumnVisibility();
     const { searchTerm, handleSearch } = useSearch(handlePageChange);
@@ -53,7 +46,7 @@ const ProductTable = ({ products, loading, error }) => {
 
     const handleDelete = () => {
         if (selectedItems.length === 0) return alert("No selected item found")
-        dispatch(deleteMultiProduct(selectedItems));
+        deleteMultiProduct(selectedItems);
         setSelectedItems([])
     };
 

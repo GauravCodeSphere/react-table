@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createProduct, updateProduct } from "../../store/actions/product";
+import { useActions } from "../../store/actions";
 
 const ProductPopup = ({ isOpen, onClose, productData, name }) => {
 
-  const dispatch = useDispatch()
+  const { updateProduct, createProduct } = useActions()
   const [editedProduct, setEditedProduct] = useState({
     title: productData.title || '',
     category: productData.category || '',
@@ -26,10 +25,10 @@ const ProductPopup = ({ isOpen, onClose, productData, name }) => {
     console.log('Saving product:', editedProduct);
 
     if (name === "Create Product") {
-      dispatch(createProduct(editedProduct));
+      createProduct(editedProduct);
       onClose();
     } else {
-      dispatch(updateProduct(productData.id, editedProduct));
+      updateProduct(productData.id, editedProduct);
       onClose();
     }
 
@@ -187,7 +186,7 @@ const ProductPopup = ({ isOpen, onClose, productData, name }) => {
                     type="submit"
                     className="text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
-                    {name === "Create Product" ? "Create":"Save"}
+                    {name === "Create Product" ? "Create" : "Save"}
                   </button>
                 </div>
               </form>

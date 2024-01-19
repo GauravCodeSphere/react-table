@@ -2,19 +2,17 @@ import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { CiEdit } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
-import { useDispatch } from 'react-redux';
-import { deleteProduct } from '../../store/actions/product';
 import ProductPopup from '../Model/ProductPopup';
 import ConfirmPopup from '../Model/ConfirmPopup';
+import { useActions } from '../../store/actions';
 
 export default function InlineDropdown({ product }) {
     const [open, setOpen] = useState(false)
     const [openConfirmModel, setOpenConfirmModel] = useState(false)
-
-    const dispatch = useDispatch();
+    const {deleteProduct} = useActions()
 
     const handleDelete = () => {
-        dispatch(deleteProduct(product.id));
+        deleteProduct(product.id);
     };
 
 
