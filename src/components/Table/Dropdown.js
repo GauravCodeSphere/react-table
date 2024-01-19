@@ -24,7 +24,7 @@ const Dropdown = ({ id, items, handleFunction }) => (
                             htmlFor={item.id}
                             className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 "
                         >
-                            {item.label}
+                            {item.label} ({item.count})
                         </label>
                     </>
                 }
