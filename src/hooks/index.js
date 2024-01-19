@@ -5,3 +5,4 @@ export { useSearch } from './useSearch';
 export { useFieldCount } from './useFieldCount';
 export { usePagination } from './usePagination';
 export { useColumnVisibility } from './useColumnVisibility';
+export { useColumnSearch } from './useColumnSearch';

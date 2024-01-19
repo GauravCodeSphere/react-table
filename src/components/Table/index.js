@@ -11,7 +11,7 @@ import { ExportCSVButton } from '../../hooks/ExportCSVButton';
 import { actions, buttonStyles, columnLabels } from '../../utils/material';
 
 // import custom hooks 
-import { useFilteredAndSortedProducts, useSorting, useSearch, useFieldCount, usePagination, useColumnVisibility } from '../../hooks';
+import { useFilteredAndSortedProducts, useSorting, useSearch, useFieldCount, usePagination, useColumnVisibility, useColumnSearch } from '../../hooks';
 import { useActions } from '../../store/actions';
 
 const ProductTable = ({ products, loading, error }) => {
@@ -29,6 +29,7 @@ const ProductTable = ({ products, loading, error }) => {
     const { filteredProductsByBrand } = useFilteredAndSortedProducts(products, searchTerm, sortColumn, sortOrder, selectedBrand, 'brand');
     const filterOptions = useFieldCount(products, 'brand', 1);
 
+    const { columnSearchTerms, handleColumnSearchChange, getFilteredProductsByColumn } = useColumnSearch(filteredProductsByBrand);
 
     const toggleExpanded = (index) => {
         setExpandedRowIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -66,6 +67,12 @@ const ProductTable = ({ products, loading, error }) => {
         return columnLabels[column] || column;
     };
 
+    const handleColumnSearch = (event, column) => {
+        const value = event.target.value;
+        handleColumnSearchChange(column, value);
+        handlePageChange(1);
+    };
+
     return (
         <section className=" dark:bg-gray-900 p-3 sm:p-5 h-screen ">
             <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
@@ -96,22 +103,33 @@ const ProductTable = ({ products, loading, error }) => {
                             <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th></th>
-                                    {[...selectedColumns.keys()]
-                                        .filter(column => selectedColumns.get(column))
-                                        .map((column, index) => (
-                                            <th key={index} scope="col" className="px-4 py-3" onClick={() => handleSort(column)}>
-                                                <div className='flex justify-center items-center'>
-
+                                    {[...selectedColumns.keys()].map((column, index) => (
+                                        <th key={index} scope="col" className="px-4 py-3">
+                                            <div className="flex flex-col">
+                                                <input
+                                                    type="text"
+                                                    placeholder={`Search ${getColumnHeaderLabel(column)}`}
+                                                    value={columnSearchTerms[column] || ''}
+                                                    onChange={(event) => handleColumnSearch(event, column)}
+                                                    className="px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:border-blue-300"
+                                                />
+                                                <div className="flex justify-center items-center mt-1">
                                                     {getColumnHeaderLabel(column)}
                                                     <span className="ml-1">
-                                                        {sortColumn === column
-                                                            ? (sortOrder === 'asc' ? <FaSortUp className='mt-1' /> : <FaSortDown className='mb-1' />)
-                                                            : <FaSort />
-                                                        }
+                                                        {sortColumn === column ? (
+                                                            sortOrder === 'asc' ? (
+                                                                <FaSortUp className="mt-1" />
+                                                            ) : (
+                                                                <FaSortDown className="mb-1" />
+                                                            )
+                                                        ) : (
+                                                            <FaSort />
+                                                        )}
                                                     </span>
                                                 </div>
-                                            </th>
-                                        ))}
+                                            </div>
+                                        </th>
+                                    ))}
                                     <th scope="col" className="px-4 py-3">
                                         <span className="sr-only">Actions</span>
                                     </th>
@@ -121,7 +139,7 @@ const ProductTable = ({ products, loading, error }) => {
                                 <LoadingTable numRows={10} numCols={5} />
                                 :
                                 <tbody>
-                                    {filteredProductsByBrand.slice(startIndex, endIndex).map((product, index) => (
+                                    {getFilteredProductsByColumn().slice(startIndex, endIndex).map((product, index) => (
                                         <ProductItem
                                             selectedColumns={selectedColumns}
                                             product={product}
@@ -136,7 +154,7 @@ const ProductTable = ({ products, loading, error }) => {
                         </table>
                     </div>
                     <PaginationModel
-                        totalItems={filteredProductsByBrand.length}
+                        totalItems={getFilteredProductsByColumn().length}
                         itemsPerPage={itemsPerPage}
                         currentPage={currentPage}
                         onPageChange={handlePageChange}
