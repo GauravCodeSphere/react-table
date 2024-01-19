@@ -5,19 +5,61 @@ import { MdDelete } from "react-icons/md";
 import ProductPopup from '../Model/ProductPopup';
 import ConfirmPopup from '../Model/ConfirmPopup';
 import { useActions } from '../../store/actions';
+import toast from 'react-hot-toast';
 
-export default function InlineDropdown({ product }) {
+export default function InlineDropdown({ product, handleEdit }) {
     const [open, setOpen] = useState(false)
     const [openConfirmModel, setOpenConfirmModel] = useState(false)
-    const {deleteProduct} = useActions()
+    const { deleteProduct, undoLastAction } = useActions()
 
     const handleDelete = () => {
         deleteProduct(product.id);
+
+        const undoToast = toast.custom(
+            (t) => (
+                <div
+                    className={`${t.visible ? 'animate-bounce' : 'animate-leave'
+                        } max-w-md w-full bg-slate-50 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+                >
+                    <div className="flex-1 w-0 p-4">
+                        <div className="flex items-start">
+                            <div className="flex-shrink-0 pt-0.5">
+                                <img
+                                    className="h-10 w-10 rounded-full"
+                                    src={product.thumbnail}
+                                    alt=""
+                                />
+                            </div>
+                            <div className="ml-3 flex-1">
+                                <p className="text-sm font-medium text-gray-900">
+                                    {product.title} has been deleted. Undo?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex border-l border-gray-200">
+                        <button
+                            onClick={() => {
+                                undoLastAction();
+                                toast.dismiss(t.id);
+                            }}
+                            className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                            Undo
+                        </button>
+                    </div>
+                </div>
+            ),
+            {
+                position: 'bottom-right', // Set the position to bottom-right
+            }
+        );
+
     };
 
 
     return (
-        <div className="">
+        <div>
             {open && <ProductPopup isOpen={open} onClose={() => setOpen(false)} productData={product} name={"Edit Product"} />}
             {openConfirmModel && <ConfirmPopup isOpen={openConfirmModel} onCancel={() => setOpenConfirmModel(false)} message={"Are you sure you want delete ?"} onConfirm={handleDelete} />}
 
@@ -91,75 +133,32 @@ export default function InlineDropdown({ product }) {
                                 )}
                             </Menu.Item>
 
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <button
+                                        className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
+                                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                        onClick={handleEdit}
+                                    >
+                                        {active ? (
+                                            <CiEdit
+                                                className="mr-2 h-5 w-5"
+                                                aria-hidden="true"
+                                            />
+                                        ) : (
+                                            <CiEdit
+                                                className="mr-2 h-5 w-5"
+                                                aria-hidden="true"
+                                            />
+                                        )}
+                                        Edit Inline
+                                    </button>
+                                )}
+                            </Menu.Item>
+
 
                         </div>
-                        {/* <div className="px-1 py-1">
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <button
-                                        className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
-                                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                    >
-                                        {active ? (
-                                            <ArchiveActiveIcon
-                                                className="mr-2 h-5 w-5"
-                                                aria-hidden="true"
-                                            />
-                                        ) : (
-                                            <ArchiveInactiveIcon
-                                                className="mr-2 h-5 w-5"
-                                                aria-hidden="true"
-                                            />
-                                        )}
-                                        Archive
-                                    </button>
-                                )}
-                            </Menu.Item>
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <button
-                                        className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
-                                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                    >
-                                        {active ? (
-                                            <MoveActiveIcon
-                                                className="mr-2 h-5 w-5"
-                                                aria-hidden="true"
-                                            />
-                                        ) : (
-                                            <MoveInactiveIcon
-                                                className="mr-2 h-5 w-5"
-                                                aria-hidden="true"
-                                            />
-                                        )}
-                                        Move
-                                    </button>
-                                )}
-                            </Menu.Item>
-                        </div>
-                        <div className="px-1 py-1">
-                            <Menu.Item>
-                                {({ active }) => (
-                                    <button
-                                        className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
-                                            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                    >
-                                        {active ? (
-                                            <DeleteActiveIcon
-                                                className="mr-2 h-5 w-5 text-sky-400"
-                                                aria-hidden="true"
-                                            />
-                                        ) : (
-                                            <DeleteInactiveIcon
-                                                className="mr-2 h-5 w-5 text-sky-400"
-                                                aria-hidden="true"
-                                            />
-                                        )}
-                                        Delete
-                                    </button>
-                                )}
-                            </Menu.Item>
-                        </div> */}
+
                     </Menu.Items>
                 </Transition>
             </Menu>
