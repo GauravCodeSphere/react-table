@@ -7,3 +7,4 @@ export { usePagination } from './usePagination';
 export { useColumnVisibility } from './useColumnVisibility';
 export { useColumnSearch } from './useColumnSearch';
 export { useSmoothScrolling } from './useSmoothScrolling';
+export { useColorManagement } from './useColorManagement';

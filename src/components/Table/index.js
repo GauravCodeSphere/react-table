@@ -12,12 +12,14 @@ import { ExportCSVButton } from '../../hooks/ExportCSVButton';
 import { actions, buttonStyles, columnLabels } from '../../utils/material';
 
 // import custom hooks 
-import { useFilteredAndSortedProducts, useSorting, useSearch, useFieldCount, usePagination, useColumnVisibility, useColumnSearch, useUndo, useSmoothScrolling } from '../../hooks';
+import { useFilteredAndSortedProducts, useSorting, useSearch, useFieldCount, usePagination, useColumnVisibility, useColumnSearch, useUndo, useSmoothScrolling, useColorManagement } from '../../hooks';
 import { useActions } from '../../store/actions';
+import ColorChange from './ColorChange';
 
 const ProductTable = ({ products, loading, error }) => {
 
     const { deleteMultiProduct } = useActions()
+    const { rowColors, addColor, removeColor } = useColorManagement()
     const { containerRef, startScrolling, stopScrolling } = useSmoothScrolling();
     const { currentPage, itemsPerPage, handlePageChange, handleItemsPerPageChange, startIndex, endIndex } = usePagination(10)
     const { selectedColumns, handleColumnChange, setSelectedColumns } = useColumnVisibility();
@@ -107,6 +109,8 @@ const ProductTable = ({ products, loading, error }) => {
                         </div>
                         <JsonView productData={filteredProductsByBrand} />
                         <ExportCSVButton data={filteredProductsByBrand} filename="table_data" />
+
+                        <ColorChange selectedItems={selectedItems} setSelectedItems={setSelectedItems} addColor={addColor} removeColor={removeColor} />
                     </div>
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                         <SearchForm onSearch={handleSearch} />
@@ -195,10 +199,12 @@ const ProductTable = ({ products, loading, error }) => {
                                             selectedColumns={selectedColumns}
                                             product={product}
                                             key={index}
+                                            rowIndex={index}
                                             handleCheckboxChange={handleCheckboxChange}
                                             selectedItems={selectedItems}
                                             expanded={index === expandedRowIndex}
                                             toggleExpanded={() => toggleExpanded(index)}
+                                            rowColors={rowColors}
                                         />
                                     ))}
                                 </tbody>}

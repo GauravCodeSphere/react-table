@@ -40,8 +40,7 @@ const ExpandableRow = ({ product, selectedColumns }) => {
     );
 };
 
-const ProductItem = ({ selectedColumns, product, handleCheckboxChange, selectedItems, toggleExpanded, expanded }) => {
-
+const ProductItem = ({ rowColors, rowIndex, selectedColumns, product, handleCheckboxChange, selectedItems, toggleExpanded, expanded }) => {
 
     const { updateProduct } = useActions()
 
@@ -91,7 +90,7 @@ const ProductItem = ({ selectedColumns, product, handleCheckboxChange, selectedI
 
     return (
         <>
-            <tr className="border-b dark:border-gray-700 hover:bg-slate-100" >
+            <tr className="border-b dark:border-gray-700 hover:bg-slate-100" id={`row-${rowIndex}`} style={{ backgroundColor: rowColors[rowIndex] }}>
                 <td className="px-4 py-3 flex items-center justify-end relative">
                     <button onClick={toggleExpanded}>
                         {expanded ? <IoIosArrowUp /> : <IoIosArrowDown />}
@@ -116,7 +115,7 @@ const ProductItem = ({ selectedColumns, product, handleCheckboxChange, selectedI
                                     type='text'
                                     defaultValue={editedFields[column] || getColumnValue(product, column)}
                                     onChange={(e) => handleInputChange(column, e.target.value)}
-                                    
+
                                 />
                             ) : (
                                 getColumnValue(product, column)
