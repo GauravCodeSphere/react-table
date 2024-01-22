@@ -25,7 +25,7 @@
     "react-pro-sidebar": "^1.1.0-alpha.1",
     "react-redux": "^9.0.4",
     "react-router-dom": "^6.21.2",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^3.0.1",
     "react-table-column-resizer": "^1.2.3",
     "redux": "^5.0.1",
     "redux-logger": "^3.0.6",
