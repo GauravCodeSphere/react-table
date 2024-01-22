@@ -17,7 +17,7 @@ const ColumnDropdown = ({ showColDropdown, handleDropdownClick, selectedColumns,
             </button>
 
             {showColDropdown && (
-                <div className="z-10 w-48 p-3 absolute bg-white rounded-lg shadow dark:bg-gray-700">
+                <div className="z-10 mt-10 w-48 p-3 absolute bg-white rounded-lg shadow dark:bg-gray-700">
                     {[...selectedColumns.keys()].map((column, index) => (
                         <ColumnDragItem
                             key={index}
