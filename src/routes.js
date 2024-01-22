@@ -1,4 +1,5 @@
 import NotFound from "./pages/404";
+import GroupedView from "./pages/GroupedView";
 import Home from "./pages/Home";
 import MaterialTableComponent from "./pages/MaterialTableComponent";
 
@@ -13,6 +14,11 @@ export const publicRoutes = [
     path: "/demo",
     name: "MaterialTableComponent",
     component: MaterialTableComponent,
+  },
+  {
+    path: "/demo2",
+    name: "GroupedView",
+    component: GroupedView,
   },
   {
     path: "*",
