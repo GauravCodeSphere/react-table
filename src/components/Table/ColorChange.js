@@ -19,10 +19,10 @@ const ColorChange = ({ selectedItems, setSelectedItems, addColor, removeColor })
 
   return (
     <>
-      <select id="colorSelect" onChange={handleColorChange} className={buttonStyles}>
+      <select id="colorSelect" onChange={handleColorChange} className={`appearance-none ${buttonStyles}`}>
         <option value="">Apply Color</option>
         {colorOptions.map((color, index) => (
-          <option key={index} value={color}>
+          <option style={{ color: "#000" }} key={index} value={color}>
             {color}
           </option>
         ))}

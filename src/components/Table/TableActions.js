@@ -29,7 +29,7 @@ const TableActions = ({ actions, filterOptions, selectedColumns, onColumnChange,
     return (
         <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
             {open && <ProductPopup isOpen={open} onClose={() => setOpen(false)} productData={[]} name={"Create Product"} />}
-            <div className="flex items-center space-x-3 w-full md:w-auto">
+            <div className="flex items-center space-x-3 w-full md:w-auto flex-wrap">
                 <div className='flex flex-col items-center space-x-3 w-full md:w-auto'>
                     <button
                         onClick={() => setOpen(true)}

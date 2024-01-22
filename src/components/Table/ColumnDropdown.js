@@ -5,7 +5,7 @@ import { useDrag, useDrop } from "react-dnd";
 
 const ColumnDropdown = ({ showColDropdown, handleDropdownClick, selectedColumns, moveColumn, onColumnChange }) => {
     return (
-        <div className="dropdown">
+        <div className='flex flex-col items-center space-x-3 w-full md:w-auto'>
             <button
                 className={buttonStyles}
                 onClick={() => handleDropdownClick("showColDropdown")}

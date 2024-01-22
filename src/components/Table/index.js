@@ -88,43 +88,70 @@ const ProductTable = ({ products, loading, error }) => {
         <section className=" dark:bg-gray-900 p-3 sm:p-5 h-screen ">
             <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
                 <div className="bg-white dark:bg-gray-800 relative shadow-lg sm:rounded-lg overflow-hidden">
-                    <div className='flex justify-end mt-3 me-4 gap-3'>
-                        <div className="flex justify-between px-4 mt-2">
-                            <button
-                                className="text-sky-500 text-lg px-4 py-2 border rounded hover:bg-slate-50"
-                                onMouseDown={() => startScrolling(-1)}
-                                onMouseUp={stopScrolling}
-                                onMouseLeave={stopScrolling}
-                            >
-                                <IoMdArrowDropleftCircle />
-                            </button>
-                            <button
-                                className="text-sky-500 text-lg px-4 py-2 border rounded hover:bg-slate-50"
-                                onMouseDown={() => startScrolling(1)}
-                                onMouseUp={stopScrolling}
-                                onMouseLeave={stopScrolling}
-                            >
-                                <IoMdArrowDroprightCircle />
-                            </button>
-                        </div>
-                        <JsonView productData={filteredProductsByBrand} />
-                        <ExportCSVButton data={filteredProductsByBrand} filename="table_data" />
 
-                        <ColorChange selectedItems={selectedItems} setSelectedItems={setSelectedItems} addColor={addColor} removeColor={removeColor} />
+                    <div className="flex flex-wrap justify-between mt-3 gap-3 p-4">
+                        <div >
+
+                            <div className="flex items-center space-x-3 mb-2 sm:mb-0">
+                                <button
+                                    className="text-sky-500 text-lg px-4 py-2 border rounded hover:bg-slate-50"
+                                    onMouseDown={() => startScrolling(-1)}
+                                    onMouseUp={stopScrolling}
+                                    onMouseLeave={stopScrolling}
+                                >
+                                    <IoMdArrowDropleftCircle />
+                                </button>
+                                <button
+                                    className="text-sky-500 text-lg px-4 py-2 border rounded hover:bg-slate-50"
+                                    onMouseDown={() => startScrolling(1)}
+                                    onMouseUp={stopScrolling}
+                                    onMouseLeave={stopScrolling}
+                                >
+                                    <IoMdArrowDroprightCircle />
+                                </button>
+                            </div>
+                        </div>
+                        <div className='flex flex-wrap gap-2'>
+
+                            <div className="flex items-center space-x-3 mb-2 sm:mb-0">
+                                <JsonView productData={filteredProductsByBrand} />
+                            </div>
+
+                            <div className="flex items-center space-x-3 mb-2 sm:mb-0">
+                                <ExportCSVButton data={filteredProductsByBrand} filename="table_data" />
+                            </div>
+
+                            <div className="flex items-center space-x-3 mb-2 sm:mb-0">
+                                <ColorChange selectedItems={selectedItems} setSelectedItems={setSelectedItems} addColor={addColor} removeColor={removeColor} />
+                            </div>
+                        </div>
+
                     </div>
+
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                         <SearchForm onSearch={handleSearch} />
-                        {sortColumn === null || <button className={buttonStyles} onClick={resetSorting}>Clear sort</button>}
-                        <TableActions
-                            actions={actions}
-                            filterOptions={filterOptions}
-                            setSelectedBrand={toggleBrand}
-                            selectedColumns={selectedColumns}
-                            onColumnChange={handleColumnChange}
-                            handleDelete={handleDelete}
-                            setSelectedColumns={setSelectedColumns}
-                        />
+
+                        {sortColumn === null || (
+                            <div className="mb-2 md:mb-0">
+                                <button className={buttonStyles} onClick={resetSorting}>
+                                    Clear sort
+                                </button>
+                            </div>
+                        )}
+
+                        <div className="mb-2 md:mb-0">
+                            <TableActions
+                                actions={actions}
+                                filterOptions={filterOptions}
+                                setSelectedBrand={toggleBrand}
+                                selectedColumns={selectedColumns}
+                                onColumnChange={handleColumnChange}
+                                handleDelete={handleDelete}
+                                setSelectedColumns={setSelectedColumns}
+                            />
+                        </div>
                     </div>
+
                     <div className="overflow-x-auto" ref={containerRef}>
                         {selectedItems.length > 0 &&
                             <div className='bg-sky-500 text-white ps-3 px-2 font-semibold'>
