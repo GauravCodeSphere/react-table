@@ -1,4 +1,5 @@
 import { Pagination } from "@mui/material";
+import GoToPageInput from "./ GoToPageInput";
 
 const PaginationModel = ({ totalItems, itemsPerPage, currentPage, onPageChange, onItemsPerPageChange }) => {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -12,6 +13,9 @@ const PaginationModel = ({ totalItems, itemsPerPage, currentPage, onPageChange, 
         onItemsPerPageChange(newItemsPerPage);
     };
 
+    const handleGoToPage = (pageNumber) => {
+        onPageChange(pageNumber);
+    };
 
 
     return (
@@ -45,6 +49,7 @@ const PaginationModel = ({ totalItems, itemsPerPage, currentPage, onPageChange, 
                 </span>
 
             </div>
+            <GoToPageInput totalPages={totalPages} onPageChange={handleGoToPage} />
 
             <Pagination
                 count={totalPages}
