@@ -22,6 +22,40 @@ code {
   font-weight: bold;
 }
 
+.column_resizer_body {
+  border-left: none;
+  border-right: none;
+  /* border-right: 1px solid rgba(0, 0, 0, 0.212); */
+}
+.columnResizer {
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  padding: 0 0 0 0;
+  position: relative;
+  
+  /* border-right: 1px solid rgba(0, 0, 0, 0.212); */
+}
+.columnResizer:not(.disabled_column_resize):after {
+  content: url("../public/images/resize_disabled_icon.svg");
+  position: absolute;
+  left: 5px;
+  top: calc(50% - 6px);
+  width: 13px;
+}
+.columnResizer:not(.disabled_column_resize):hover::after {
+  content: url("../public/images/resize_icon.svg");
+  position: absolute;
+  left: 5px;
+  top: calc(50% - 6px);
+  width: 13px;
+}
+.column_resizer_body {
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+}
+
 
 
 /*======================

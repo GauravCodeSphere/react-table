@@ -16,6 +16,7 @@ import { useFilteredAndSortedProducts, useSorting, useSearch, useFieldCount, use
 import { useActions } from '../../store/actions';
 import ColorChange from './ColorChange';
 import { Tooltip } from 'flowbite-react';
+import ColumnResize from "react-table-column-resizer";
 
 const ProductTable = ({ products, loading, error }) => {
 
@@ -126,11 +127,11 @@ const ProductTable = ({ products, loading, error }) => {
                             <div className="flex items-center space-x-3 mb-2 sm:mb-0">
                                 <ColorChange selectedItems={selectedItems} setSelectedItems={setSelectedItems} addColor={addColor} removeColor={removeColor} />
                             </div>
-                            <div className="flex items-center space-x-3 mb-2 sm:mb-0">
-                                <Tooltip content="Show/Hide filters" className='bg-slate-700 text-xs' arrow={false}>
+                            <Tooltip content="Show/Hide filters" className='bg-slate-700 text-xs' arrow={false}>
+                                <div className="flex items-center space-x-3 mb-2 sm:mb-0">
                                     <button className={buttonStyles} onClick={() => setShowFilter(!showFilter)}>{showFilter ? <MdFilterListOff /> : <MdFilterList />}</button>
-                                </Tooltip>
-                            </div>
+                                </div>
+                            </Tooltip>
                         </div>
 
                     </div>
@@ -167,58 +168,67 @@ const ProductTable = ({ products, loading, error }) => {
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th></th>
+                                    <th>
+                                    </th>
                                     {[...selectedColumns.keys()].map((column, index) => (
-                                        <th key={index} scope="col" className={`px-4 py-3 ${sortColumn === column ? 'sorted-column' : ''}`}>
-                                            <div className="flex flex-col">
-                                                {showFilter &&
-                                                    <div className='relative'>
-                                                        <input
-                                                            type="text"
-                                                            placeholder={`Search ${getColumnHeaderLabel(column)}`}
-                                                            value={columnSearchTerms[column] || ''}
-                                                            onChange={(event) => handleColumnSearch(event, column)}
-                                                            className="px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:border-blue-300"
-                                                        />
+                                        <>
 
-                                                        <button
-                                                            type="button"
-                                                            className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
-                                                            onClick={() => handleReset(column)}
-                                                        >
-                                                            <svg
-                                                                className="w-4 h-4 text-gray-500 dark:text-gray-400 cursor-pointer"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                viewBox="0 0 24 24"
-                                                                xmlns="http://www.w3.org/2000/svg"
+                                            <th key={index} scope="col" className={`px-4 py-3 ${sortColumn === column ? 'sorted-column' : ''}`}>
+                                                <div className="flex flex-col">
+                                                    {showFilter &&
+                                                        <div className='relative'>
+                                                            <input
+                                                                type="text"
+                                                                placeholder={`Search ${getColumnHeaderLabel(column)}`}
+                                                                value={columnSearchTerms[column] || ''}
+                                                                onChange={(event) => handleColumnSearch(event, column)}
+                                                                className="px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:border-blue-300"
+                                                            />
+
+                                                            <button
+                                                                type="button"
+                                                                className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
+                                                                onClick={() => handleReset(column)}
                                                             >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    d="M6 18L18 6M6 6l12 12"
-                                                                ></path>
-                                                            </svg>
-                                                        </button>
-                                                    </div>}
+                                                                <svg
+                                                                    className="w-4 h-4 text-gray-500 dark:text-gray-400 cursor-pointer"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth="2"
+                                                                        d="M6 18L18 6M6 6l12 12"
+                                                                    ></path>
+                                                                </svg>
+                                                            </button>
+                                                        </div>}
 
-                                                <div className="flex justify-start items-center mt-2" onClick={() => handleSort(column)}>
-                                                    {getColumnHeaderLabel(column)}
-                                                    <span className="ml-1">
-                                                        {sortColumn === column ? (
-                                                            sortOrder === 'asc' ? (
-                                                                <FaSortUp className="mt-1" />
+                                                    <div className="flex justify-start items-center mt-2" onClick={() => handleSort(column)}>
+                                                        {getColumnHeaderLabel(column)}
+                                                        <span className="ml-1">
+                                                            {sortColumn === column ? (
+                                                                sortOrder === 'asc' ? (
+                                                                    <FaSortUp className="mt-1" />
+                                                                ) : (
+                                                                    <FaSortDown className="mb-1" />
+                                                                )
                                                             ) : (
-                                                                <FaSortDown className="mb-1" />
-                                                            )
-                                                        ) : (
-                                                            <FaSort />
-                                                        )}
-                                                    </span>
+                                                                <FaSort />
+                                                            )}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </th>
+                                            </th>
+                                            <ColumnResize
+                                                resizeEnd={(width) => console.log("resize end", width)}
+                                                resizeStart={() => console.log("resize start")}
+                                                className="columnResizer"
+                                            />
+                                        </>
                                     ))}
                                     <th scope="col" className="px-4 py-3">
                                         <span className="sr-only">Actions</span>

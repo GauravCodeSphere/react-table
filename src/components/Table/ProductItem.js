@@ -109,18 +109,22 @@ const ProductItem = ({ rowColors, rowIndex, selectedColumns, product, handleChec
 
                 {[...selectedColumns.keys()].map((column, columnIndex) => (
                     selectedColumns.get(column) ? (
-                        <td key={columnIndex} className='px-4 py-3'>
-                            {isEditing ? (
-                                <input
-                                    type='text'
-                                    defaultValue={editedFields[column] || getColumnValue(product, column)}
-                                    onChange={(e) => handleInputChange(column, e.target.value)}
+                        <>
 
-                                />
-                            ) : (
-                                getColumnValue(product, column)
-                            )}
-                        </td>
+                            <td key={columnIndex} className='px-4 py-3'>
+                                {isEditing ? (
+                                    <input
+                                        type='text'
+                                        defaultValue={editedFields[column] || getColumnValue(product, column)}
+                                        onChange={(e) => handleInputChange(column, e.target.value)}
+
+                                    />
+                                ) : (
+                                    getColumnValue(product, column)
+                                )}
+                            </td>
+                            <td className="column_resizer_body" />
+                        </>
                     ) : null
                 ))}
 
