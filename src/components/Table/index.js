@@ -135,7 +135,7 @@ const ProductTable = ({ products, loading, error }) => {
                                 <tr>
                                     <th></th>
                                     {[...selectedColumns.keys()].map((column, index) => (
-                                        <th key={index} scope="col" className="px-4 py-3">
+                                        <th key={index} scope="col" className={`px-4 py-3 ${sortColumn === column ? 'sorted-column' : ''}`}>
                                             <div className="flex flex-col">
                                                 <div className='relative'>
                                                     <input

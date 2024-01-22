@@ -16,17 +16,17 @@ code {
     monospace;
 }
 
+.sorted-column {
+  background-color: #0ea5e9;
+  /* or any other background color */
+  font-weight: bold;
+}
 
 
 
 /*======================
     404 page
 =======================*/
-
-
-
-
-
 
 
 .page_404 {
