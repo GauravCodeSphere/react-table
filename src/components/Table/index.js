@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { MdFilterList, MdFilterListOff } from "react-icons/md";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from "react-icons/io";
 import SearchForm from './SearchForm';
@@ -10,11 +11,11 @@ import PaginationModel from './Pagination';
 import JsonView from '../Model/JsonView';
 import { ExportCSVButton } from '../../hooks/ExportCSVButton';
 import { actions, buttonStyles, columnLabels } from '../../utils/material';
-
 // import custom hooks 
 import { useFilteredAndSortedProducts, useSorting, useSearch, useFieldCount, usePagination, useColumnVisibility, useColumnSearch, useUndo, useSmoothScrolling, useColorManagement } from '../../hooks';
 import { useActions } from '../../store/actions';
 import ColorChange from './ColorChange';
+import { Tooltip } from 'flowbite-react';
 
 const ProductTable = ({ products, loading, error }) => {
 
@@ -27,6 +28,7 @@ const ProductTable = ({ products, loading, error }) => {
     const { sortColumn, sortOrder, handleSort, resetSorting } = useSorting();
 
     const [selectedBrand, setSelectedBrand] = useState([]);
+    const [showFilter, setShowFilter] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]);
     const [expandedRowIndex, setExpandedRowIndex] = useState(null);
 
@@ -124,6 +126,11 @@ const ProductTable = ({ products, loading, error }) => {
                             <div className="flex items-center space-x-3 mb-2 sm:mb-0">
                                 <ColorChange selectedItems={selectedItems} setSelectedItems={setSelectedItems} addColor={addColor} removeColor={removeColor} />
                             </div>
+                            <div className="flex items-center space-x-3 mb-2 sm:mb-0">
+                                <Tooltip content="Show/Hide filters" className='bg-slate-700 text-xs' arrow={false}>
+                                    <button className={buttonStyles} onClick={() => setShowFilter(!showFilter)}>{showFilter ? <MdFilterListOff /> : <MdFilterList />}</button>
+                                </Tooltip>
+                            </div>
                         </div>
 
                     </div>
@@ -164,36 +171,37 @@ const ProductTable = ({ products, loading, error }) => {
                                     {[...selectedColumns.keys()].map((column, index) => (
                                         <th key={index} scope="col" className={`px-4 py-3 ${sortColumn === column ? 'sorted-column' : ''}`}>
                                             <div className="flex flex-col">
-                                                <div className='relative'>
-                                                    <input
-                                                        type="text"
-                                                        placeholder={`Search ${getColumnHeaderLabel(column)}`}
-                                                        value={columnSearchTerms[column] || ''}
-                                                        onChange={(event) => handleColumnSearch(event, column)}
-                                                        className="px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:border-blue-300"
-                                                    />
+                                                {showFilter &&
+                                                    <div className='relative'>
+                                                        <input
+                                                            type="text"
+                                                            placeholder={`Search ${getColumnHeaderLabel(column)}`}
+                                                            value={columnSearchTerms[column] || ''}
+                                                            onChange={(event) => handleColumnSearch(event, column)}
+                                                            className="px-2 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring focus:border-blue-300"
+                                                        />
 
-                                                    <button
-                                                        type="button"
-                                                        className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
-                                                        onClick={() => handleReset(column)}
-                                                    >
-                                                        <svg
-                                                            className="w-4 h-4 text-gray-500 dark:text-gray-400 cursor-pointer"
-                                                            fill="none"
-                                                            stroke="currentColor"
-                                                            viewBox="0 0 24 24"
-                                                            xmlns="http://www.w3.org/2000/svg"
+                                                        <button
+                                                            type="button"
+                                                            className="absolute inset-y-0 right-0 flex items-center pr-3 focus:outline-none"
+                                                            onClick={() => handleReset(column)}
                                                         >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                strokeWidth="2"
-                                                                d="M6 18L18 6M6 6l12 12"
-                                                            ></path>
-                                                        </svg>
-                                                    </button>
-                                                </div>
+                                                            <svg
+                                                                className="w-4 h-4 text-gray-500 dark:text-gray-400 cursor-pointer"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                                <path
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    strokeWidth="2"
+                                                                    d="M6 18L18 6M6 6l12 12"
+                                                                ></path>
+                                                            </svg>
+                                                        </button>
+                                                    </div>}
 
                                                 <div className="flex justify-start items-center mt-2" onClick={() => handleSort(column)}>
                                                     {getColumnHeaderLabel(column)}
