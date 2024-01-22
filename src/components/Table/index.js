@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { MdFilterList, MdFilterListOff } from "react-icons/md";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
+import { BiSortAlt2 } from "react-icons/bi";
+import { FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
 import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from "react-icons/io";
 import SearchForm from './SearchForm';
 import TableActions from './TableActions';
@@ -18,7 +20,9 @@ import ColorChange from './ColorChange';
 import { Tooltip } from 'flowbite-react';
 import ColumnResize from "react-table-column-resizer";
 
+
 const ProductTable = ({ products, loading, error }) => {
+
 
     const { deleteMultiProduct } = useActions()
     const { rowColors, addColor, removeColor } = useColorManagement()
@@ -87,6 +91,8 @@ const ProductTable = ({ products, loading, error }) => {
     };
 
 
+
+
     return (
         <section className=" dark:bg-gray-900 p-3 sm:p-5 h-screen ">
             <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
@@ -127,6 +133,7 @@ const ProductTable = ({ products, loading, error }) => {
                             <div className="flex items-center space-x-3 mb-2 sm:mb-0">
                                 <ColorChange selectedItems={selectedItems} setSelectedItems={setSelectedItems} addColor={addColor} removeColor={removeColor} />
                             </div>
+                            
                             <Tooltip content="Show/Hide filters" className='bg-slate-700 text-xs' arrow={false}>
                                 <div className="flex items-center space-x-3 mb-2 sm:mb-0">
                                     <button className={buttonStyles} onClick={() => setShowFilter(!showFilter)}>{showFilter ? <MdFilterListOff /> : <MdFilterList />}</button>
@@ -212,12 +219,12 @@ const ProductTable = ({ products, loading, error }) => {
                                                         <span className="ml-1">
                                                             {sortColumn === column ? (
                                                                 sortOrder === 'asc' ? (
-                                                                    <FaSortUp className="mt-1" />
+                                                                    <FaArrowUpLong />
                                                                 ) : (
-                                                                    <FaSortDown className="mb-1" />
+                                                                    <FaArrowDownLong />
                                                                 )
                                                             ) : (
-                                                                <FaSort />
+                                                                <BiSortAlt2 />
                                                             )}
                                                         </span>
                                                     </div>
