@@ -3,7 +3,7 @@ import { FaFilter } from "react-icons/fa";
 import Dropdown from './Dropdown';
 import { buttonStyles } from '../../utils/material';
 import { useDropdownState } from "../../hooks/useDropdownState";
-import ColumnDropdown from "./ColumnDropdown";
+import ManageColumn from "./ManageColumn";
 import { IoMdAdd } from "react-icons/io";
 import ProductPopup from "../Model/ProductPopup";
 import { useState } from "react";
@@ -66,7 +66,7 @@ const TableActions = ({ actions, filterOptions, selectedColumns, onColumnChange,
                     {showFilterDropdown && <Dropdown id={`showFilterDropdownDropdown`} items={filterOptions} handleFunction={setSelectedBrand} />}
                 </div>
 
-                <ColumnDropdown
+                <ManageColumn
                     showColDropdown={showColDropdown}
                     handleDropdownClick={handleDropdownClick}
                     selectedColumns={selectedColumns}
