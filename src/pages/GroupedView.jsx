@@ -91,6 +91,7 @@ const GroupedView = () => {
                 )}
             </div>
 
+
             {groupedView ? (
                 <div className="mb-4">
                     <table className="w-full border border-gray-300">
@@ -134,13 +135,13 @@ const GroupedView = () => {
                                             )}
                                         </  >
 
-                            {/* <tfoot> */}
-                                <tr className='flex'>
-                                    <td className="border border-gray-300 py-1 px-2">
-                                        Total Price: {groupData.totalPrice.toFixed(2)}
-                                    </td>
-                                </tr>
-                            {/* </tfoot> */}
+                                        {/* <tfoot> */}
+                                        <tr className='flex'>
+                                            <td className="border border-gray-300 py-1 px-2">
+                                                Total Price: {groupData.totalPrice.toFixed(2)}
+                                            </td>
+                                        </tr>
+                                        {/* </tfoot> */}
                                     </>
 
                                 ))}
