@@ -1,4 +1,5 @@
 import NotFound from "./pages/404";
+import AdvancedFilter from "./pages/AdvancedFilter";
 import GroupedView from "./pages/GroupedView";
 import Home from "./pages/Home";
 import MaterialTableComponent from "./pages/MaterialTableComponent";
@@ -19,6 +20,11 @@ export const publicRoutes = [
     path: "/demo2",
     name: "GroupedView",
     component: GroupedView,
+  },
+  {
+    path: "/demo3",
+    name: "AdvancedFilter",
+    component: AdvancedFilter,
   },
   {
     path: "*",
