@@ -1,54 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { getColumnValue } from '../utils/material';
 
-export const useFilteredAndSortedProducts = (originalProducts, searchTerm, sortColumn, sortOrder, selectedBrand,field) => {
+export const useFilteredAndSortedProducts = (originalProducts, searchTerm, sortColumn, sortOrder, selectedBrand, field) => {
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [sortedProducts, setSortedProducts] = useState([]);
     const [filteredProductsByBrand, setFilteredProductsByBrand] = useState([]);
 
+    const memoizedGetColumnValue = useMemo(() => getColumnValue, []); // Memoizing getColumnValue
+
     useEffect(() => {
-        // Filtering logic
-        const filtered = originalProducts.filter(product =>
-            Object.values(product).some(value =>
-                String(value).toLowerCase().includes(searchTerm.toLowerCase())
-            )
-        );
-        setFilteredProducts(filtered);
+        // Filtering and sorting logic combined
+        const sorted = originalProducts
+            .filter(product => Object.values(product).some(value => String(value).toLowerCase().includes(searchTerm.toLowerCase())))
+            .sort((a, b) => {
+                const columnValueA = a[memoizedGetColumnValue(sortColumn)];
+                const columnValueB = b[memoizedGetColumnValue(sortColumn)];
 
-        // Sorting logic
-        const sorted = [...filtered].sort((a, b) => {
-            const columnValueA = a[getColumnValue(sortColumn)];
-            const columnValueB = b[getColumnValue(sortColumn)];
+                const valueA = memoizedGetColumnValue(sortColumn) === 'price' ? columnValueA || 0 : columnValueA || '';
+                const valueB = memoizedGetColumnValue(sortColumn) === 'price' ? columnValueB || 0 : columnValueB || '';
 
-            let valueA, valueB;
+                return sortOrder === 'asc' ? valueA - valueB : valueB - valueA;
+            });
 
-            if (getColumnValue(sortColumn) === 'price') {
-                valueA = columnValueA || 0;
-                valueB = columnValueB || 0;
-            } else {
-                valueA = columnValueA || '';
-                valueB = columnValueB || '';
-            }
-
-            if (sortOrder === 'asc') {
-                return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
-            } else {
-                return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
-            }
-        });
-        setSortedProducts(sorted);
+        setFilteredProducts(sorted);
 
         // Filtering by brand logic
-        const filteredByBrand = selectedBrand && selectedBrand.length
+        const filteredByBrand = Array.isArray(selectedBrand) && selectedBrand.length
             ? sorted.filter(product => selectedBrand.includes(product[field]))
             : sorted;
+
         setFilteredProductsByBrand(filteredByBrand);
-    }, [originalProducts, searchTerm, sortColumn, sortOrder, selectedBrand]);
+    }, [originalProducts, searchTerm, sortColumn, sortOrder, selectedBrand, field, memoizedGetColumnValue]);
 
     return {
         filteredProducts,
-        sortedProducts,
         filteredProductsByBrand,
     };
 };
-
