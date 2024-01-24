@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import JsonView from '../Model/JsonView';
 import { ExportCSVButton } from './ExportCSVButton';
 import ColorChange from './ColorChange';
@@ -18,8 +18,6 @@ const TableFeatures = ({
     startScrolling,
     stopScrolling
 }) => {
-
-
 
     return (
         <>
@@ -71,4 +69,4 @@ const TableFeatures = ({
     );
 }
 
-export default TableFeatures;
+export default memo(TableFeatures);
