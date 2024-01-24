@@ -3,7 +3,7 @@ import { useActions } from "../store/actions";
 import toast from "react-hot-toast";
 
 
-export const useSelectItems = ({ getFilteredProductsByColumn }) => {
+export const useSelectItems = (getFilteredProductsByColumn) => {
     const { deleteMultiProduct } = useActions()
 
     const [selectedItems, setSelectedItems] = useState([]);
