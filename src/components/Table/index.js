@@ -31,8 +31,8 @@ const ProductTable = ({ products, loading, error }) => {
     const [expandedRowIndex, setExpandedRowIndex] = useState(null);
 
     // custom hooks
-    const { filteredProductsByBrand } = useFilteredAndSortedProducts(products, searchTerm, sortColumn, sortOrder, selectedBrand, 'category');
-    const filterOptions = useFieldCount(products, 'category', 1);
+    const { filteredProductsByBrand } = useFilteredAndSortedProducts(products, searchTerm, sortColumn, sortOrder, selectedBrand, 'brand');
+    const filterOptions = useFieldCount(products, 'brand', 1);
     const { columnSearchTerms, handleColumnSearchChange, getFilteredProductsByColumn } = useColumnSearch(filteredProductsByBrand);
     const { selectedItems, selectAllChecked, setSelectedItems, handleCheckboxChange, handleDelete, handleSelectAllChange } = useSelectItems(getFilteredProductsByColumn)
 
@@ -69,7 +69,7 @@ const ProductTable = ({ products, loading, error }) => {
 
 
     return (
-        <section className=" dark:bg-gray-900 p-3 sm:p-5 h-screen ">
+        <section className=" dark:bg-gray-900 p-3 sm:p-5 h-screen">
             <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
                 <div className="bg-white dark:bg-gray-800 relative shadow-lg sm:rounded-lg overflow-hidden">
 
@@ -218,6 +218,12 @@ const ProductTable = ({ products, loading, error }) => {
                                     ))}
                                 </tbody>}
                         </table>
+                        {getFilteredProductsByColumn().length === 0 &&
+                            <div className='h-96 flex justify-center items-center text-gray-500'>
+                                No records to display
+                            </div>
+
+                        }
                     </div>
                     <PaginationModel
                         totalItems={getFilteredProductsByColumn().length}
