@@ -22,8 +22,8 @@ const ExpandableRow = ({ product, selectedColumns }) => {
     const { images, stock, rating, discountPercentage, price } = product;
 
     return (
-        <tr className="border-b dark:border-gray-700 bg-slate-100">
-            <td colSpan={selectedColumns.size + 2} className="px-4 py-7 ">
+        <tr className="dark:border-gray-700 bg-slate-100">
+            <td colSpan={selectedColumns.size + 8} className="px-4 py-7">
                 <div className="grid grid-cols-4 gap-4">
                     {images.slice(0, 4).map((image, index) => (
                         <ProductImage key={index} src={image} />
