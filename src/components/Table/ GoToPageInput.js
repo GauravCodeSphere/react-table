@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const GoToPageInput = ({ totalPages, onPageChange }) => {
+const GoToPageInput = ({ totalPages, onPageChange, extra }) => {
     const [pageNumber, setPageNumber] = useState('');
 
     const handleInputChange = (event) => {
@@ -11,7 +11,7 @@ const GoToPageInput = ({ totalPages, onPageChange }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (pageNumber >= 1 && pageNumber <= totalPages) {
-            onPageChange(pageNumber);
+            onPageChange(pageNumber - (extra === 1 ? 1 : 0));
         }
     };
 

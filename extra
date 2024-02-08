@@ -1,0 +1,322 @@
+
+//     const generatePageNumbers = () => {
+//         const pageNumbers = [];
+//         const maxVisiblePages = 5;
+
+//         if (totalPages <= maxVisiblePages) {
+//             for (let page = 1; page <= totalPages; page++) {
+//                 pageNumbers.push(renderPageNumber(page));
+//             }
+//         } else {
+
+//             const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+//             const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+//             if (startPage > 1) {
+//                 pageNumbers.push(renderPageNumber(1));
+//                 if (startPage > 2) {
+//                     // pageNumbers.push(renderEllipsis());
+//                 }
+
+
+//             }
+
+//             for (let page = startPage; page <= endPage; page++) {
+//                 // console.log(page);
+//                 pageNumbers.push(renderPageNumber(page));
+
+//             }
+
+//             if (endPage < totalPages) {
+//                 const lastVisiblePage = Math.min(totalPages, currentPage + Math.floor(maxVisiblePages / 2));
+
+//                 if (lastVisiblePage < totalPages) {
+//                     if (lastVisiblePage < totalPages - 1) {
+//                         pageNumbers.push(renderEllipsis());
+//                     }
+//                     pageNumbers.push(renderPageNumber(totalPages));
+//                 }
+//             }
+//         }
+
+//         // console.log(pageNumbers);
+//         return pageNumbers;
+//     };
+
+
+
+//     const renderPageNumber = (pageNumber) => (
+//         <li key={pageNumber}>
+//             <a
+//                 href="#"
+//                 className={`flex items-center justify-center text-sm py-2 px-3 leading-tight ${currentPage === pageNumber
+//                     ? 'text-primary-600 bg-sky-500 text-white border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+//                     : 'text-gray-500 bg-white border border-gray-300 hover:bg-sky-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+//                     }`}
+//                 onClick={() => handlePageClick(pageNumber)}
+//             >
+//                 {pageNumber}
+//             </a>
+//         </li>
+//     );
+
+//     const renderEllipsis = () => (
+//         <li key="ellipsis">
+//             <span className="text-gray-500 flex items-center justify-center text-sm py-2 px-3 leading-tight border border-gray-300 " >...</span>
+//         </li>
+//     );
+
+
+
+
+//     <ul className="inline-flex items-stretch -space-x-px">
+//     <li>
+//         <a
+//             href="#"
+//             className={`flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white`}
+//             onClick={() => handlePageClick(currentPage - 1)}
+//         >
+//             <span className=""><FaArrowLeft /></span>
+//         </a>
+//     </li>
+//     {generatePageNumbers()}
+//     <li>
+//         <a
+//             href="#"
+//             className={`flex items-center justify-center h-full py-1.5 px-3 leading-tight ${currentPage === totalPages
+//                 ? 'text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+//                 : 'text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+//                 }`}
+//             onClick={() => handlePageClick(currentPage + 1)}
+//         >
+//             <span className=""><FaArrowRight /></span>
+//         </a>
+//     </li>
+// </ul>
+
+
+
+
+
+
+
+
+
+// // import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+// // import { RiBarChartFill } from "react-icons/ri";
+// // import { FaCalendar } from "react-icons/fa";
+// // import { IoMdCart } from "react-icons/io";
+// // import { MdHomeRepairService } from "react-icons/md";
+// // import { Navbar } from 'flowbite-react';
+
+// import Navbar from "./Navbar";
+// import Sidebar from "./Sidebar";
+
+// const SidebarMenu = ({ children }) => {
+
+//   return (
+//     <>
+//       {/* <div className='flex h-screen '>
+//         <Sidebar width='300px' className='mt-12'>
+//           <Menu
+//             menuItemStyles={{
+//               button: ({ level, active, disabled }) => {
+//                 // only apply styles on first level elements of the tree
+//                 if (level === 0)
+//                   return {
+//                     color: disabled ? 'grey' : '#0098e5',
+//                     backgroundColor: active ? '#83d7ff' : undefined,
+//                   };
+//               },
+//             }}
+//           >
+//             <label className='text-slate-400 text-sm flex justify-start ms-8 mb-2 font-semibold'>General</label>
+//             <SubMenu defaultOpen label="Charts" icon={<RiBarChartFill />}>
+//               <MenuItem> Pie charts</MenuItem>
+//               <MenuItem> Line charts</MenuItem>
+//               <MenuItem> Bar charts</MenuItem>
+//             </SubMenu>
+//             <MenuItem active icon={<FaCalendar />}>
+//               Calendar (active)
+//             </MenuItem>
+//             <MenuItem disabled icon={<IoMdCart />}>
+//               E-commerce (disabled)
+//             </MenuItem>
+//             <MenuItem icon={<MdHomeRepairService />}> Examples</MenuItem>
+//           </Menu>
+//         </Sidebar>
+//         <main className='w-full bg-gray-50'>
+//           {children}
+//         </main>
+//       </div> */}
+//       <div className="antialiased bg-gray-50 dark:bg-gray-900">
+//         <Navbar />
+//         {/* Sidebar */}
+//         <Sidebar />
+//         <main className='w-full bg-gray-10 p-4 md:ml-20 h-auto pt-20'>
+//           {children}
+//         </main>
+//         {/* <main className="p-4 md:ml-64 h-auto pt-20">
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+//                     <div className="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64" />
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64" />
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64" />
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64" />
+//                 </div>
+//                 <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4" />
+//                 <div className="grid grid-cols-2 gap-4 mb-4">
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72" />
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72" />
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72" />
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72" />
+//                 </div>
+//                 <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4" />
+//                 <div className="grid grid-cols-2 gap-4">
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72" />
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72" />
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72" />
+//                     <div className="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72" />
+//                 </div>
+//             </main> */}
+//       </div>
+//     </>
+//   );
+// };
+
+// export default SidebarMenu;
+
+
+{/* {sortColumn === null || (
+                            <div className="mb-2 md:mb-0">
+                                <button className={buttonStyles} onClick={resetSorting}>
+                                    Clear sort
+                                </button>
+                            </div>
+                        )} */}
+
+
+
+
+
+// const FakeDataGenerator = () => {
+//   const [data, setData] = useState([]);
+
+//   const generateFakeData = (numberOfRows) => {
+//     const fakeData = [...Array(numberOfRows).fill(null)].map(() => ({
+//       firstName: faker.person.firstName(),
+//       middleName: faker.person.firstName(),
+//       lastName: faker.person.lastName(),
+//       email: faker.internet.email(),
+//       phoneNumber: faker.phone.number(),
+//       address: faker.location.streetAddress(),
+//       zipCode: faker.location.zipCode(),
+//       city: faker.location.city(),
+//       state: faker.location.state(),
+//       country: faker.location.country(),
+//       petName: faker.animal.cat(),
+//       age: faker.number.float({ min: 0, max: 100 }),
+//       salary: faker.number
+//         .float({ min: 0, max: 1000000 })
+//         .toLocaleString('en-US', {
+//           style: 'currency',
+//           currency: 'USD',
+//         }),
+//       dateOfBirth: faker.date.past({ years: 50 }).toDateString(),
+//       dateOfJoining: faker.date.past({ years: 20 }).toDateString(),
+//       isActive: faker.datatype.boolean() ? 'Active' : 'Inactive',
+//     }));
+
+//     setData(fakeData);
+//   };
+
+//   return (
+//     <div>
+//       <button onClick={() => generateFakeData(10)}>Generate Fake Data</button>
+//       <ul>
+//         {data.map((person, index) => (
+//           <li key={index}>{JSON.stringify(person)}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
+
+// export default FakeDataGenerator;
+
+
+
+
+// import React, { useMemo } from 'react';
+// import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+// import { columnDef } from './columns';
+// import { FakeData } from '../../utils/userData';
+// import './table.css'
+
+// const EmployeeTable = () => {
+
+//     const finalData = useMemo(() => FakeData(), [])
+//     const finalColumnDef = useMemo(() => columnDef, [])
+
+//     const tableInstance = useReactTable({
+//         columns: finalColumnDef,
+//         data: finalData,
+//         getCoreRowModel: getCoreRowModel(),
+//     })
+
+//     return (
+//         <table>
+//             <thead>
+//                 {tableInstance.getHeaderGroups().map((headerEl) => {
+//                     return (
+//                         <tr key={headerEl.id}>
+//                             {headerEl.headers.map((columnEl) => {
+//                                 return (
+//                                     <th key={columnEl.id} colSpan={columnEl.colSpan}>
+//                                         {flexRender(
+//                                             columnEl.column.columnDef.header,
+//                                             columnEl.getContext()
+//                                         )}
+
+//                                     </th>
+//                                 )
+//                             })}
+//                         </tr>
+//                     )
+//                 })}
+//             </thead>
+//             <tbody>
+//                 {tableInstance.getRowModel().rows.map(rowEl => {
+//                     return <tr key={rowEl.id} >
+//                         {rowEl.getVisibleCells().map(cellEl => {
+//                             return <td key={cellEl.id}>
+//                                 {flexRender(
+//                                     cellEl.column.columnDef.cell,
+//                                     cellEl.getContext()
+//                                 )}
+//                             </td>
+//                         })}
+//                     </tr>
+//                 })}
+//             </tbody>
+//         </table>
+//     );
+// }
+
+// export default EmployeeTable;
+
+
+
+
+     {/* <div className='flex mt-5 gap-1 ms-2'>
+                    <button className={buttonStyles} onClick={firstPage} >{"<<"}</button>
+                    <button className={buttonStyles} onClick={previousPage} disabled={!tableInstance.getCanPreviousPage()}>{"<"}</button>
+                    <button className={buttonStyles} onClick={nextPage} disabled={!tableInstance.getCanNextPage()}>{">"}</button>
+                    <button className={buttonStyles} onClick={lastPage}>{">>"}</button>
+                </div> */}
+
+
+
+                    // const nextPage = () => tableInstance.nextPage();
+    // const previousPage = () => tableInstance.previousPage();
+    // const firstPage = () => tableInstance.setPageIndex(0);
+    // const lastPage = () => tableInstance.setPageIndex(pageCount - 1);

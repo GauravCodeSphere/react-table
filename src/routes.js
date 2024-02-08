@@ -3,6 +3,7 @@ import AdvancedFilter from "./pages/AdvancedFilter";
 import GroupedView from "./pages/GroupedView";
 import Home from "./pages/Home";
 import MaterialTableComponent from "./pages/MaterialTableComponent";
+import TanStackTable from "./pages/TanStackTable";
 
 
 export const publicRoutes = [
@@ -25,6 +26,11 @@ export const publicRoutes = [
     path: "/demo3",
     name: "AdvancedFilter",
     component: AdvancedFilter,
+  },
+  {
+    path: "/tan-stack",
+    name: "TanStackTable",
+    component: TanStackTable,
   },
   {
     path: "*",
